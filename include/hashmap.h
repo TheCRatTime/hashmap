@@ -36,6 +36,21 @@ typedef struct hashmap {
   unsigned char rehashing;
 } hashmap;
 
+/* Init hashmap */
+hashmap* create_hashmap(size_t cap);
+
+/* Get element from MAP */
+void* hashmap_get(hashmap* map, const char* key);
+
+/* Set VAL to element from MAP */
+void hashmap_set(hashmap* map, const char* key, void* val);
+
+/* Push new element to MAP */
+int hashmap_push(hashmap* map, const char* key, void* val);
+
+/* Free hashmap */
+void free_hashmap(hashmap* map);
+
 #endif /* HASHMAP_HASHMAP_H_ */
 
 #ifdef HASHMAP_SOURCE
@@ -44,7 +59,7 @@ typedef struct hashmap {
 #include <stdlib.h>
 #include <string.h>
 
-char* hashmap_strdup(const char* str) {
+static char* hashmap_strdup(const char* str) {
   char* ret = NULL;
   
   if (!str) { return NULL; }
@@ -59,7 +74,7 @@ char* hashmap_strdup(const char* str) {
   return ret;
 }
 
-size_t hashmap_get_hash(const char* key) {
+static size_t hashmap_get_hash(const char* key) {
   size_t hash = HASHMAP_HASH_START;
 
   if (!key) { return hash; }
